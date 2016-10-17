@@ -1,0 +1,14 @@
+# @Author: royce
+# @Date:   2016-10-16T13:04:50-04:00
+# @Email:  rharding@gotonight.com
+# @Project: Go Tonight
+# @Last modified by:   royce
+# @Last modified time: 2016-10-17T18:20:59-04:00
+# @License: © 2016 GoTonight LLC All Rights Reserved
+
+{
+  "extends": "rallycoding",
+  "rules": {
+      "arrow-body-style": 0
+    }
+}
