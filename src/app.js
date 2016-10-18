@@ -4,7 +4,7 @@
 * @Email:  rharding@gotonight.com
 * @Project: Go Tonight
 * @Last modified by:   royce
-* @Last modified time: 2016-10-17T18:08:53-04:00
+* @Last modified time: 2016-10-17T20:27:04-04:00
 * @License: © 2016 GoTonight LLC All Rights Reserved
 */
 
@@ -16,29 +16,22 @@
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import firebase from 'firebase';
 
-import reducers from './reducers';
+import { config } from './config';
 import LoginForm from './components/LoginForm';
+
+import configureStore from './configureStore';
 
 class App extends Component {
 
   componentWillMount() {
-    const config = {
-      apiKey: 'AIzaSyBfNBAfgSygKGHhAggWtD85xqqQMrOjXHQ',
-      authDomain: 'manager-c9f4d.firebaseapp.com',
-      databaseURL: 'https://manager-c9f4d.firebaseio.com',
-      storageBucket: 'manager-c9f4d.appspot.com',
-      messagingSenderId: '909930870462'
-    };
-
-    firebase.initializeApp(config);
+    firebase.initializeApp(config.firebase);
   }
 
   render() {
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={configureStore}>
         <LoginForm />
       </Provider>
     );
