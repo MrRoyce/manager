@@ -1,7 +1,5 @@
 # React Native - Personal project for the Udemy course
-# https://www.udemy.com/the-complete-react-native-and-redux-course/learn/v4/overview
-
-This is the client source code for the GoTonight website.
+https://www.udemy.com/the-complete-react-native-and-redux-course/learn/v4/overview
 
 ###Getting Started###
 
