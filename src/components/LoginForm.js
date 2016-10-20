@@ -4,21 +4,19 @@
 * @Email:  rharding@gotonight.com
 * @Project: Go Tonight
 * @Last modified by:   royce
-* @Last modified time: 2016-10-17T20:53:58-04:00
+* @Last modified time: 2016-10-19T11:30:30-04:00
 * @License: © 2016 GoTonight LLC All Rights Reserved
 */
 
 import React, { Component } from 'react';
-import { Card, CardItem, Spinner } from 'native-base';
+import { Card, CardItem, Spinner, Text } from 'native-base';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
 
 import {
   emailChanged,
   passwordChanged,
-  loginSuccess,
-  loginFailed } from '../logic/auth/auth.actions';
+  loginUser } from '../logic/auth/auth.actions';
 
 import { AppInput, AppButton } from './common';
 
@@ -32,29 +30,10 @@ class LoginForm extends Component {
     this.props.passwordChanged(text);
   }
 
-  onLoginSuccess() {
-    this.props.loginSuccess();
-  }
-
-  onLoginFail() {
-    this.props.loginFailed();
-  }
-
   onButtonPress() {
     const { email, password } = this.props;
 
-    this.setState({
-      error: '',
-      loading: true
-    });
-
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess.bind(this))
-      .catch(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSuccess.bind(this))
-          .catch(this.onLoginFail.bind(this));
-      });
+    this.props.loginUser({ email, password });
   }
 
   renderButton() {
@@ -75,6 +54,7 @@ class LoginForm extends Component {
         <CardItem>
           <AppInput
             label="E-Mail"
+            keyboardType="email-address"
             placeholder="user@gmail.com"
             onChangeText={this.onEmailChange.bind(this)}
             value={this.props.email}
@@ -89,6 +69,9 @@ class LoginForm extends Component {
             value={this.props.password}
           />
         </CardItem>
+        <Text style={styles.errorTextStyle}>
+          {this.props.errorMsg}
+        </Text>
         <CardItem>
           {this.renderButton()}
         </CardItem>
@@ -97,18 +80,28 @@ class LoginForm extends Component {
   }
 }
 
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
+  }
+};
+
 const mapDispatchToProps = (dispatch) => {
    return bindActionCreators({
      emailChanged,
      passwordChanged,
-     loginSuccess,
-     loginFailed }, dispatch);
+     loginUser }, dispatch);
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ auth }) => {
+  const { email, password, errorMsg, loading } = auth;
   return {
-    email: state.auth.email,
-    password: state.auth.password
+    email,
+    password,
+    errorMsg,
+    loading
   };
 };
 

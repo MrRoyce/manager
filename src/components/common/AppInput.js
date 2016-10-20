@@ -4,7 +4,7 @@
 * @Email:  rharding@gotonight.com
 * @Project: Go Tonight
 * @Last modified by:   royce
-* @Last modified time: 2016-10-16T22:12:20-04:00
+* @Last modified time: 2016-10-18T22:08:00-04:00
 * @License: © 2016 GoTonight LLC All Rights Reserved
 */
 
@@ -14,7 +14,7 @@ import React from 'react';
 import { View, TextInput, Text } from 'react-native';
 //import {  } from 'native-base';
 
-const AppInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
+const AppInput = ({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType }) => {
   const {
     inputStyle, labelStyle, containerStyle
   } = styles;
@@ -24,6 +24,7 @@ const AppInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) 
       <Text style={labelStyle}>{label}</Text>
       <TextInput
         secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType || 'default'}
         placeholder={placeholder}
         autoCorrect={false}
         style={inputStyle}

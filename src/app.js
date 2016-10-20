@@ -4,7 +4,7 @@
 * @Email:  rharding@gotonight.com
 * @Project: Go Tonight
 * @Last modified by:   royce
-* @Last modified time: 2016-10-17T20:27:04-04:00
+* @Last modified time: 2016-10-18T12:39:02-04:00
 * @License: © 2016 GoTonight LLC All Rights Reserved
 */
 
@@ -16,23 +16,31 @@
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+//import { createStore } from 'redux';
 import firebase from 'firebase';
 
+//import reducers from './reducers';
+import Router from './Router';
 import { config } from './config';
-import LoginForm from './components/LoginForm';
 
 import configureStore from './configureStore';
+
+const storeWithMiddleware = configureStore();
 
 class App extends Component {
 
   componentWillMount() {
-    firebase.initializeApp(config.firebase);
+    try {
+      firebase.app();  // see if it exists
+    } catch (variable) {
+      firebase.initializeApp(config.firebase);
+    }
   }
 
   render() {
     return (
-      <Provider store={configureStore}>
-        <LoginForm />
+      <Provider store={storeWithMiddleware}>
+        <Router />
       </Provider>
     );
   }

@@ -4,19 +4,19 @@
 * @Email:  rharding@gotonight.com
 * @Project: Go Tonight
 * @Last modified by:   royce
-* @Last modified time: 2016-10-17T20:06:42-04:00
+* @Last modified time: 2016-10-19T11:45:53-04:00
 * @License: © 2016 GoTonight LLC All Rights Reserved
 */
 
-import { createLogic }  from 'redux-logic';
+import { Actions } from 'react-native-router-flux';
+
+import { createLogic } from 'redux-logic';
 
 import {
   LOGIN_USER_REQUEST
 } from '../../actions/types';
 
 import {
-  emailChanged,
-  passwordChanged,
   loginSuccess,
   loginFailed
 } from './auth.actions';
@@ -27,21 +27,26 @@ import {
 // but they were not needed for this particular code
 
 async function loginUser(firebase, payload) {
+  //  Login the user
+  const user =
 
-  //  Increment the logic count
-  const auth =
     await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-      .then(resp => resp);
-  return ({});
+      .then((resp) => {
+        Actions.main(); //Route to the list of employees
+        return resp;
+      })
+    ;
+
+  return ({ user });
 }
 
 export const loginUserLogic = createLogic({
-  type           : LOGIN_USER_REQUEST,
-  latest         : true, // take latest only
-  processOptions : {
-    dispatchReturn : true,
-    successType    : loginSuccess,
-    failType       : loginFailed
+  type: LOGIN_USER_REQUEST,
+  latest: true, // take latest only
+  processOptions: {
+    dispatchReturn: true,
+    successType: loginSuccess,
+    failType: loginFailed
   },
 
   // firebase injected
@@ -49,12 +54,12 @@ export const loginUserLogic = createLogic({
   process({ firebase, action }) {
     const
       payload = {
-        email : action.payload.email,
-        password  : action.payload.password
+        email: action.payload.email,
+        password: action.payload.password
       }
     ;
 
-    return loginUser(firebase, GT_API_URL, payload);
+    return loginUser(firebase, payload);
   }
 });
 
